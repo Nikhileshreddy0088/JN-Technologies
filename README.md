@@ -43,4 +43,4 @@ Email: connect.jntechnologies@gmail.com
 Phone / WhatsApp: +91 72076 00574
 Location: Hyderabad, Telangana, India
 
-The contact form saves each enquiry in the company Google Sheet and emails connect.jntechnologies@gmail.com. The sheet columns are S.No, Name, Email, What do you need help with?, and Project details.
+The contact form saves each enquiry in the company Google Sheet and emails connect.jntechnologies@gmail.com. The sheet columns are S.No, Name, Email, What do you need help with?, Project details, and Time (India time).

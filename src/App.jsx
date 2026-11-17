@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const EMAIL = "connect.jntechnologies@gmail.com";
-const ENQUIRY_SHEET_URL = "https://script.google.com/macros/s/AKfycbwDwjmIMufjCKhmIDIWcKZn2uwKmv4QvNgOlXv2H7K80XyF2njZrUOa5CE76-kBoervyA/exec";
+const ENQUIRY_SHEET_URL = "https://script.google.com/macros/s/AKfycbxXaaRheERHebQF25tv0SS2rT3_GVFC9N9FVAR_DmEaZ5zrajMlRcI9IO3Rwdd7EmSO/exec";
 const PHONE_DISPLAY = "+91 72076 00574";
 const PHONE_TEL = "+917207600574";
 const WHATSAPP = "917207600574";
