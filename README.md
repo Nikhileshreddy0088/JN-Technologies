@@ -23,14 +23,20 @@ npm run build
 ```
 The deployable website is generated in `dist/`.
 
-## Deploy to Cloudflare Pages
-1. Push this folder to a GitHub repository.
-2. In Cloudflare Dashboard, choose Workers & Pages → Create → Pages → Connect to Git.
-3. Select the repository.
-4. Build command: `npm run build`
-5. Build output directory: `dist`
-6. Deploy, then add `jntechnologies.in` and `www.jntechnologies.in` under Custom domains.
-7. Follow the exact DNS instructions Cloudflare provides.
+## Live site
+The site is published with GitHub Pages from the `main` branch. The custom domain is `jntechnologies.in`.
+
+In GoDaddy, open the domain, choose DNS, and use these records. Remove any old parking or forwarding records for the same host names first.
+
+| Type | Name | Value |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | nikhileshreddy0088.github.io |
+
+DNS can take a few minutes to a few hours. HTTPS is turned on by GitHub after the domain resolves.
 
 ## Contact details
 Email: connect.jntechnologies@gmail.com
