@@ -162,7 +162,7 @@ const nav = [
 function Brand() {
   return (
     <a className="brand" href="#home">
-      <img src="/jn-logo.png" alt="" width="48" height="49" />
+      <img src={`${import.meta.env.BASE_URL}jn-logo.png`} alt="" width="48" height="49" />
       <span>
         <strong>JN Technologies</strong>
         <small>Intelligence · Integration · Innovation</small>
@@ -377,7 +377,7 @@ export default function App() {
                 <div className="ring r2" />
                 <i className="spark soft" />
               </div>
-              <img className="constellation-logo" src="/jn-logo.png" alt="" />
+              <img className="constellation-logo" src={`${import.meta.env.BASE_URL}jn-logo.png`} alt="" />
               <span className="node n1">Enterprise</span>
               <span className="node n2">Software</span>
               <span className="node n3">AI</span>
