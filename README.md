@@ -43,4 +43,4 @@ Email: connect.jntechnologies@gmail.com
 Phone / WhatsApp: +91 72076 00574
 Location: Hyderabad, Telangana, India
 
-The contact form currently uses `mailto:`; it does not save enquiries in a database. Add a secure form endpoint, spam protection and server-side validation before depending on it for high-volume lead capture.
+The contact form saves each enquiry in the company Google Sheet and emails connect.jntechnologies@gmail.com. The sheet columns are S.No, Name, Email, What do you need help with?, and Project details.

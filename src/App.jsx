@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const EMAIL = "connect.jntechnologies@gmail.com";
+const ENQUIRY_SHEET_URL = "https://script.google.com/macros/s/AKfycbwDwjmIMufjCKhmIDIWcKZn2uwKmv4QvNgOlXv2H7K80XyF2njZrUOa5CE76-kBoervyA/exec";
 const PHONE_DISPLAY = "+91 72076 00574";
 const PHONE_TEL = "+917207600574";
 const WHATSAPP = "917207600574";
@@ -178,6 +179,8 @@ export default function App() {
   const [activeNav, setActiveNav] = useState("home");
   const [service, setService] = useState(0);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formError, setFormError] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -273,14 +276,38 @@ export default function App() {
     return (event) => setForm((prev) => ({ ...prev, [field]: event.target.value }));
   }
 
-  function send(event) {
+  async function send(event) {
     event.preventDefault();
-    const subject = encodeURIComponent(`Website enquiry from ${form.name}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nInterested in: ${form.service}\n\n${form.message}`
-    );
-    setSent(true);
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+    setFormError("");
+    if (!ENQUIRY_SHEET_URL) {
+      const subject = encodeURIComponent(`Website enquiry from ${form.name}`);
+      const body = encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\nInterested in: ${form.service}\n\n${form.message}`
+      );
+      setSent(true);
+      window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+      return;
+    }
+    setSending(true);
+    try {
+      await fetch(ENQUIRY_SHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          service: form.service,
+          message: form.message,
+        }),
+      });
+      setSent(true);
+      setForm({ name: "", email: "", service: "Not sure yet", message: "" });
+    } catch {
+      setFormError(`The enquiry could not be saved. Write to ${EMAIL}.`);
+    } finally {
+      setSending(false);
+    }
   }
 
   function onTabKey(event) {
@@ -727,13 +754,19 @@ export default function App() {
                   placeholder="What are you trying to improve, build or connect?"
                 />
               </label>
-              <button className="btn btn-gold" type="submit">
-                Send enquiry <span aria-hidden="true">↗</span>
+              <button className="btn btn-gold" type="submit" disabled={sending}>
+                {sending ? "Sending…" : "Send enquiry"} <span aria-hidden="true">↗</span>
               </button>
               <p className="form-note" role="status">
-                {sent
-                  ? `Your email app should open with this enquiry. If it does not, write to ${EMAIL}.`
-                  : "This opens your email app with the message ready to send."}
+                {formError
+                  ? formError
+                  : sent
+                    ? ENQUIRY_SHEET_URL
+                      ? "Enquiry saved. We will reply by email."
+                      : `Your email app should open with this enquiry. If it does not, write to ${EMAIL}.`
+                    : ENQUIRY_SHEET_URL
+                      ? "Your details are saved in the company enquiry sheet."
+                      : "This opens your email app with the message ready to send."}
               </p>
             </form>
           </div>

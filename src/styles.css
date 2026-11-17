@@ -633,6 +633,7 @@ h2 em { color: #9a7040; }
 }
 .contact form .btn { width: 100%; border: 0; }
 .form-note { text-align: center; font-size: 13px; color: var(--muted); font-weight: 400; }
+button:disabled { opacity: 0.65; cursor: wait; }
 
 footer { background: #050910; color: #b7c3d1; padding: 36px 0 calc(28px + var(--safe-bottom)); }
 .about-grid > *,
