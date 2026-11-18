@@ -34,7 +34,7 @@ body {
   padding-left: var(--safe-left);
   padding-right: var(--safe-right);
 }
-body.menu-open { overflow: hidden; }
+body.menu-open, body.confirm-open { overflow: hidden; }
 button, a, input, select, textarea { touch-action: manipulation; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -635,6 +635,65 @@ h2 em { color: #9a7040; }
 .form-note { text-align: center; font-size: 13px; color: var(--muted); font-weight: 400; }
 button:disabled { opacity: 0.65; cursor: wait; }
 
+.confirm-dialog {
+  width: min(420px, calc(100vw - 32px - var(--safe-left) - var(--safe-right)));
+  max-height: calc(100dvh - 32px - var(--safe-top) - var(--safe-bottom));
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: var(--paper);
+  color: var(--text);
+  box-shadow: 0 24px 70px rgba(7, 17, 28, 0.38);
+  overflow: auto;
+}
+.confirm-dialog[open] { animation: confirm-in 0.28s ease; }
+.confirm-dialog::backdrop {
+  background: rgba(7, 17, 28, 0.72);
+}
+.confirm-card {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 32px 28px 28px;
+  text-align: center;
+}
+.confirm-mark {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #f8e0b4, #d7a44c);
+  color: #1c1408;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 12px 30px rgba(215, 164, 76, 0.28);
+}
+.confirm-kicker {
+  margin: 8px 0 0;
+  color: var(--gold-deep);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 650;
+}
+.confirm-card h3 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.confirm-card p:last-of-type {
+  margin: 0 0 8px;
+  max-width: 32ch;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.confirm-card .btn { width: 100%; min-height: 48px; border: 0; }
+
 footer { background: #050910; color: #b7c3d1; padding: 36px 0 calc(28px + var(--safe-bottom)); }
 .about-grid > *,
 .contact-grid > *,
@@ -725,6 +784,10 @@ footer { background: #050910; color: #b7c3d1; padding: 36px 0 calc(28px + var(--
 .solution-panel li:nth-child(4) { animation-delay: 0.15s; }
 .solution-panel li:nth-child(5) { animation-delay: 0.2s; }
 
+@keyframes confirm-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes ticker { to { transform: translateX(-50%); } }
 @keyframes rise {
@@ -816,7 +879,9 @@ footer { background: #050910; color: #b7c3d1; padding: 36px 0 calc(28px + var(--
   .section, .contact { padding: 64px 0; }
   .guides, .audience-grid, .steps, .reason-grid, .outcome-grid, .details { grid-template-columns: 1fr; }
   .solution-panel, .afford-grid, .contact form { padding: 22px 18px; }
-  .mission-card h3, .contact form h3 { font-size: 26px; }
+  .mission-card h3, .contact form h3, .confirm-card h3 { font-size: 26px; }
+  .confirm-card { padding: 26px 18px 20px; }
+  .confirm-dialog { border-radius: 20px; }
   .foot-main, .foot-bottom { flex-direction: column; align-items: flex-start; }
   .node { font-size: 10px; padding: 6px 9px; }
 }

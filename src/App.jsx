@@ -181,6 +181,9 @@ export default function App() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [formError, setFormError] = useState("");
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmName, setConfirmName] = useState("");
+  const confirmRef = useRef(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -219,6 +222,15 @@ export default function App() {
     document.body.classList.toggle("menu-open", menu);
     return () => document.body.classList.remove("menu-open");
   }, [menu]);
+
+  useEffect(() => {
+    document.body.classList.toggle("confirm-open", confirmOpen);
+    const dialog = confirmRef.current;
+    if (!dialog) return undefined;
+    if (confirmOpen && !dialog.open) dialog.showModal();
+    if (!confirmOpen && dialog.open) dialog.close();
+    return () => document.body.classList.remove("confirm-open");
+  }, [confirmOpen]);
 
   useEffect(() => {
     const onKey = (event) => {
@@ -284,7 +296,9 @@ export default function App() {
       const body = encodeURIComponent(
         `Name: ${form.name}\nEmail: ${form.email}\nInterested in: ${form.service}\n\n${form.message}`
       );
+      setConfirmName(form.name.trim());
       setSent(true);
+      setConfirmOpen(true);
       window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
       return;
     }
@@ -301,7 +315,9 @@ export default function App() {
           message: form.message,
         }),
       });
+      setConfirmName(form.name.trim());
       setSent(true);
+      setConfirmOpen(true);
       setForm({ name: "", email: "", service: "Not sure yet", message: "" });
     } catch {
       setFormError(`The enquiry could not be saved. Write to ${EMAIL}.`);
@@ -761,12 +777,8 @@ export default function App() {
                 {formError
                   ? formError
                   : sent
-                    ? ENQUIRY_SHEET_URL
-                      ? "Enquiry saved. We will reply by email."
-                      : `Your email app should open with this enquiry. If it does not, write to ${EMAIL}.`
-                    : ENQUIRY_SHEET_URL
-                      ? "Your details are saved in the company enquiry sheet."
-                      : "This opens your email app with the message ready to send."}
+                    ? "Enquiry saved. We will reply by email."
+                    : "We will reply by email."}
               </p>
             </form>
           </div>
@@ -795,6 +807,27 @@ export default function App() {
           before commencement.
         </p>
       </footer>
+
+      <dialog
+        ref={confirmRef}
+        className="confirm-dialog"
+        aria-labelledby="confirm-title"
+        aria-describedby="confirm-text"
+        onClose={() => setConfirmOpen(false)}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) event.currentTarget.close();
+        }}
+      >
+        <div className="confirm-card">
+          <span className="confirm-mark" aria-hidden="true">✓</span>
+          <p className="confirm-kicker">Enquiry received</p>
+          <h3 id="confirm-title">Thank you{confirmName ? `, ${confirmName}` : ""}.</h3>
+          <p id="confirm-text">Your details are saved. We will reply by email.</p>
+          <button className="btn btn-gold" type="button" onClick={() => confirmRef.current?.close()}>
+            Done
+          </button>
+        </div>
+      </dialog>
     </>
   );
 }
